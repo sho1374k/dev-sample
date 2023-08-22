@@ -11,12 +11,13 @@ $ITEM_GAP_SP: 16;
 
 main {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   background: var(--black2);
+  padding: liquid(32) 0;
 }
 
 .l-container {
