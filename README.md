@@ -4,7 +4,7 @@
 
 This repo is development sample of web production.
 
-- <a href="https://sho1374k.github.io/dev-sample/"  target="_blank" rel="noopener noreferrer">https://sho1374k.github.io/dev-sample/</a>
+- https://sho1374k.github.io/dev-sample/
 
 ## 🎮 ~ Getting Started
 
