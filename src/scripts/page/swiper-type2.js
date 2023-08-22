@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
             loop: ele.getAttribute("data-loop") === "true",
             speed: 400,
             autoplay: ele.getAttribute("data-autoplay") === "true",
-            slidesPerView: "auto",
+            // slidesPerView: "auto",
             loopAdditionalSlides: 1,
             spaceBetween: 0,
             paginationClickable: true,
@@ -72,7 +72,6 @@ window.addEventListener("DOMContentLoaded", (e) => {
       }
     }
   }
-
   const single = new SwiperSingle();
   single.init();
 });
