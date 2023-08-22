@@ -1,25 +1,31 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-title: "hogehgoe";
 ---
 <style lang="scss">
 @use "../../styles/global/app" as *;
-h1{
-	font-size: liquid(200);
+:root {
+	--dummy-black: #222;
+	--dummy-baige: #f9f2e5;
+}
+body {
+	background: var(--black2);
+	min-height: 100vh;
+}
+h1 {
+	font-size: 32px;
+	color: var(--beige);
+	font-weight: bold;
+	line-height: 100%;
+	padding: 32px 24px;
+	@include sp_w(){
+		padding: 24px 20px;
+	}
 }
 </style>
 
 <Layout title="Test Page">
 	<main>
 		<h1>Test Page</h1>
-		<ul>
-			<li>
-				<a href="/">Top Page</a>
-			</li>
-			<li>
-				<a href="/test/">Test Page</a>
-			</li>
-		</ul>
 	</main>
 </Layout>
 

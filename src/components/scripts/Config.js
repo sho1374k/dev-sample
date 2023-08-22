@@ -1,3 +1,3 @@
 export const Config = {
-  url: "https://dev.shoya-kajita.com/",
+  url: "https://sho1374k.github.io/dev-sample/",
 };

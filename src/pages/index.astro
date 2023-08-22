@@ -1,105 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const posts = await Astro.glob('./**/*.astro');
+const posts = [
+  "swiper-type1",
+  "test",
+];
 ---
-<style lang="scss">
-@use "../styles/global/app" as *;
-:root {
-  --dummy-black: #222;
-  --dummy-baige: #f9f2e5;
-}
-body {
-  background: var(--black2);
-  min-height: 100vh;
-  box-sizing: border-box;
-  padding: 12px;
-  &::before{
-    content: "";
-    pointer-events: none;
-    user-select: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    z-index: 99;
-    border: solid 13px var(--beige);
-    box-sizing: border-box;
-  }
-  &::after{
-    content: "";
-    pointer-events: none;
-    user-select: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    z-index: 100;
-    border: solid 12px var(--black2);
-    box-sizing: border-box;
-  }
-}
-h1 {
-  font-size: 32px;
-  color: var(--beige);
-  font-weight: bold;
-  line-height: 100%;
-  padding: 32px 24px;
-  border: solid 1px var(--beige);
-  box-sizing: border-box;
-  @include sp_w(){
-    padding: 24px 20px;
-  }
-}
-ul{
-  @include pc_w(){
-    display: flex;
-    flex-wrap: wrap;
-    li{
-      width: 50%;
-    }
-  }
-}
-a {
-  position: relative;
-  z-index: 0;
-  display: block;
-  width: 100%;
-  color: #f9f2e5;
-  border: solid 1px var(--beige);
-  box-sizing: border-box;
-  padding: 24px;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 160%;
-  text-transform: capitalize;
-  @include sp_w(){
-    padding: 20px;
-  }
-  @include hover(){
-    color: rgba(#f9f2e5, .5);
-  }
-}
-</style>
 <Layout title="">
   <h1>Sample</h1>
 	<main>
 		<ul>
       {
         posts.map((data) => {
-          const url = data.url;
-          const pageName = url.replace("/", "");
+          const url = `/${data}/`;
+          const pageName = data;
           return(
             <li>
-              <a href={`${url}/`} target="_blank" rel="noopener noreferrer">{pageName}</a>
+              <a href={url} target="_blank" rel="noopener noreferrer">{pageName}</a>
             </li>
           )
         })
@@ -107,3 +24,89 @@ a {
 		</ul>
 	</main>
 </Layout>
+<style lang="scss">
+  @use "../styles/global/app" as *;
+  :root {
+    --dummy-black: #222;
+    --dummy-baige: #f9f2e5;
+  }
+  body {
+    background: var(--black2);
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 12px;
+    &::before{
+      content: "";
+      pointer-events: none;
+      user-select: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      margin: auto;
+      z-index: 99;
+      border: solid 13px var(--beige);
+      box-sizing: border-box;
+    }
+    &::after{
+      content: "";
+      pointer-events: none;
+      user-select: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      margin: auto;
+      z-index: 100;
+      border: solid 12px var(--black2);
+      box-sizing: border-box;
+    }
+  }
+  h1 {
+    font-size: 32px;
+    color: var(--beige);
+    font-weight: bold;
+    line-height: 100%;
+    padding: 32px 24px;
+    border: solid 1px var(--beige);
+    box-sizing: border-box;
+    @include sp_w(){
+      padding: 24px 20px;
+    }
+  }
+  ul{
+    @include pc_w(){
+      display: flex;
+      flex-wrap: wrap;
+      li{
+        width: 50%;
+      }
+    }
+  }
+  a {
+    position: relative;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    color: #f9f2e5;
+    border: solid 1px var(--beige);
+    box-sizing: border-box;
+    padding: 24px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 160%;
+    text-transform: capitalize;
+    @include sp_w(){
+      padding: 20px;
+    }
+    @include hover(){
+      color: rgba(#f9f2e5, .5);
+    }
+  }
+</style>
