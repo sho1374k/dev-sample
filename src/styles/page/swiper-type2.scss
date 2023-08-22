@@ -1,0 +1,181 @@
+@use "../global/app" as *;
+
+@use "../lib/_swiper";
+
+$ITEM_W: 400 * 2;
+$ITEM_W_SP: 320;
+$ITEM_H: 300 * 2;
+$ITEM_H_SP: 240;
+$ITEM_GAP: 24;
+$ITEM_GAP_SP: 16;
+
+main {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--black2);
+  padding: liquid(32) 0;
+}
+
+.l-container {
+  width: 96vw;
+  margin: 0 auto 84px;
+}
+
+// --------------------------
+
+// lib 上書き
+
+// --------------------------
+// コンテナ
+.swiper-container {
+  overflow: initial !important;
+}
+// ページャー
+.swiper-button-next,
+.swiper-button-prev {
+  position: relative !important;
+  top: initial !important;
+  left: initial !important;
+  right: initial !important;
+  bottom: initial !important;
+  background-image: initial !important;
+  width: max-content !important;
+  height: max-content !important;
+  margin: initial !important;
+  color: var(--beige) !important;
+  font-size: liquid(24) !important;
+  &::after {
+    display: none !important;
+  }
+  // hover
+  opacity: 1;
+  transition: 0.4s ease opacity;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.swiper-button-next {
+}
+.swiper-button-prev {
+}
+// 無効状態
+.swiper-button-disabled {
+}
+// スクロールバー
+.swiper-scrollbar {
+  height: liquid(10) !important;
+  border-radius: liquid(6) !important;
+  background: var(--black) !important;
+  overflow: hidden;
+
+  .drag {
+    height: liquid(10) !important;
+    background: var(--beige) !important;
+    border-radius: liquid(6) !important;
+  }
+}
+// ページネーション
+.swiper-pagination {
+  position: relative !important;
+  top: initial !important;
+  left: initial !important;
+  right: initial !important;
+  bottom: initial !important;
+  margin: initial !important;
+  padding: 20px 0 !important;
+
+  // ・
+  .swiper-pagination-bullet {
+    width: liquid(16) !important;
+    height: liquid(16) !important;
+    background: var(--beige) !important;
+    margin: 0 liquid(12);
+    &.swiper-pagination-bullet-active {
+      background: var(--beige) !important;
+      width: liquid(16) !important;
+      height: liquid(16) !important;
+    }
+  }
+
+  // 数字
+  font-size: liquid(20) !important;
+  .swiper-pagination-current {
+    font-size: liquid(20) !important;
+  }
+  .swiper-pagination-total {
+    font-size: liquid(20) !important;
+  }
+}
+
+// --------------------------
+
+// 単体スライド
+
+// --------------------------
+.c-swiperSingle {
+  position: relative;
+  z-index: 0;
+}
+.c-swiperSingle__pg {
+  display: flex;
+  align-items: center;
+  padding: liquid(24) 0;
+  gap: liquid(24);
+}
+.c-swiperSingle__scrollbar {
+}
+.c-swiperSingle__pagination {
+}
+.js-swiperSingle {
+  width: liquid($ITEM_W + $ITEM_GAP);
+
+  .swiper-wrapper {
+    height: 100%;
+  }
+  .swiper-slide {
+  }
+
+  .img {
+    height: 100%;
+    width: max-content;
+    height: liquid($ITEM_H);
+    width: liquid($ITEM_W + $ITEM_GAP);
+    @include sp_w() {
+      height: liquid($ITEM_H_SP);
+      width: liquid($ITEM_W_SP + $ITEM_GAP_SP);
+    }
+    img {
+      width: liquid($ITEM_W);
+      height: 100%;
+      object-fit: cover;
+      @include sp_w() {
+        width: liquid($ITEM_W_SP);
+      }
+    }
+  }
+
+  // --------------------------
+
+  // コンテンツ幅ぴったり
+
+  // --------------------------
+  &[data-fit="true"] {
+    width: 100%;
+    .swiper-slide {
+      width: liquid($ITEM_W + $ITEM_GAP) !important;
+      @include sp_w() {
+        width: liquid($ITEM_W_SP + $ITEM_GAP_SP) !important;
+      }
+      &:nth-last-of-type(1) {
+        width: liquid($ITEM_W) !important;
+        @include sp_w() {
+          width: liquid($ITEM_W_SP) !important;
+        }
+      }
+    }
+  }
+}
