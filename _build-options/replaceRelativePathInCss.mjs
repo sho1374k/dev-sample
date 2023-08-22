@@ -7,7 +7,8 @@ const replaceRelativePathInCss = () => {
     console.log(files);
     for (const file of files) {
       const data = readFileSync(file, "utf-8");
-      const result = data.replace(/.\/assets/g, "");
+      const result = data.replace(/..\/assets/g, "/assets/");
+      // const result = data.replace(/.\/assets/g, "");
       writeFileSync(file, result, "utf8");
     }
     console.log(

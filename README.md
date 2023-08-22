@@ -4,7 +4,9 @@
 
 This repo is development sample of web production.
 
-- https://sho1374k.github.io/dev-sample/
+- SiteURL: https://sho1374k.github.io/dev-sample/
+
+- GitHub: https://github.com/sho1374k/dev-sample
 
 ## 🎮 ~ Getting Started
 
