@@ -1,0 +1,85 @@
+--- 
+import "../styles/common.scss";
+
+interface Props {
+	title?: string;
+  description?: string;
+  themeColor?: string;
+  ogType?: string;
+  ogImg?: string;
+  ogUrl?: string;
+  thumbnail?: string;
+	appleTouchIcon?: string;
+	favicon?: string;
+}
+
+const {
+  title = "",
+  description = "",
+  themeColor = "#161616",
+  ogType = "website",
+  ogImg = "assets/img/head/ogp.webp",
+  thumbnail = "assets/img/head/thumbnail.webp",
+	appleTouchIcon = "/assets/img/head/apple-touch-icon.webp",
+	favicon = "/assets/img/head/favicon.ico",
+} = Astro.props;
+
+const SITE_URL = import.meta.env.SITE;
+const GLOBAL_TITLE = "Sample";
+const PAGE_TITLE = title.replace(/<br>/g, "");
+const SITE_TITLE = PAGE_TITLE === "" ? GLOBAL_TITLE : PAGE_TITLE + "｜" + GLOBAL_TITLE;
+const DESCRIPTION = description;
+const OG_TYPE = ogType;
+const OG_IMG = SITE_URL + ogImg;
+const THUMBNAIL = SITE_URL + thumbnail;
+const APPLE_TOUCH_ICON = appleTouchIcon;
+const FAVICON = favicon;
+const TWITTER_ID = "@sho4771k";
+const GTAG = ``;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+    <title>{SITE_TITLE}</title>
+		{import.meta.env.PROD && <Fragment set:html={GTAG} />}
+    <meta name="description" content={DESCRIPTION} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="email=no,telephone=no,address=no" />
+    <meta name="theme-color" content={themeColor} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content={SITE_TITLE} />
+    <meta property="og:description" content={DESCRIPTION} />
+    <meta property="og:url" content={SITE_URL} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:type" content={OG_TYPE} />
+    <meta property="og:image" content={OG_IMG} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={TWITTER_ID} />
+    <meta name="twitter:title" content={SITE_TITLE} />
+    <meta name="twitter:description" content={DESCRIPTION} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="thumbnail" content={THUMBNAIL} />
+		<link rel="apple-touch-icon" href={APPLE_TOUCH_ICON} />
+    <link rel="icon" type="image/svg+xml" href={FAVICON} />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+<script>
+  import { Global } from "../scripts/modules/Global";
+  import { Ua } from "../scripts/modules/Ua";
+  import { SetPropertySize } from "../scripts/modules/SetPropertySize";
+
+  window.G = new Global();
+  window.addEventListener("DOMContentLoaded", (e) => {
+    new Ua();
+    SetPropertySize(window.innerWidth, window.innerHeight);
+    window.addEventListener('resize', e => {
+      SetPropertySize(window.innerWidth, window.innerHeight);
+    });
+  })
+</script>

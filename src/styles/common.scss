@@ -1,0 +1,22 @@
+@use "./global/app" as *;
+
+// foundation
+@use "./foundation/root";
+@use "./foundation/reset";
+
+// ブレイクポイント
+@include pc_w() {
+  .u-pc-hide {
+    display: none !important;
+  }
+}
+@include sp_w() {
+  .u-sp-hide {
+    display: none !important;
+  }
+}
+
+// 非表示
+.u-hidden {
+  display: none !important;
+}

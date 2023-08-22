@@ -1,0 +1,13 @@
+$gothic: "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", sans-serif;
+
+:root {
+  // font
+  --ja: $gothic;
+  --en: $gothic;
+
+  // color
+  --white: #fff;
+  --black: #161616;
+  --black2: #222;
+  --beige: #f9f2e5;
+}

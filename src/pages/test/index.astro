@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+title: "hogehgoe";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+h1{
+	font-size: liquid(200);
+}
+</style>
+
+<Layout title="Test Page">
+	<main>
+		<h1>Test Page</h1>
+		<ul>
+			<li>
+				<a href="/">Top Page</a>
+			</li>
+			<li>
+				<a href="/test/">Test Page</a>
+			</li>
+		</ul>
+	</main>
+</Layout>
+
+<script>
+  window.addEventListener("DOMContentLoaded", (e) => {
+		console.log("hoge");
+  });
+</script>
