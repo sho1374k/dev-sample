@@ -1,0 +1,146 @@
+@use "../global/app" as *;
+
+@use "../lib/_swiper";
+
+$ITEM_W: 800;
+$ITEM_W_SP: 320;
+$ITEM_H: 600;
+$ITEM_H_SP: 240;
+$ITEM_GAP: 24;
+$ITEM_GAP_SP: 16;
+
+main {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--black2);
+  padding: liquid(32) 0;
+}
+
+.l-container {
+  width: 96vw;
+  margin: 0 auto 84px;
+}
+
+// --------------------------
+
+// lib 上書き
+
+// --------------------------
+// コンテナ
+.swiper-container {
+  overflow: initial !important;
+}
+// ページャー
+.swiper-button-next,
+.swiper-button-prev {
+  position: relative;
+  top: initial;
+  left: initial;
+  right: initial;
+  bottom: initial;
+  background-image: initial;
+  margin: initial;
+  color: #161616;
+  font-size: liquid(24);
+  &::after {
+    display: none;
+  }
+  // hover
+  opacity: 1;
+  transition: 0.4s ease opacity;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.swiper-button-next {
+}
+.swiper-button-prev {
+}
+// 無効状態
+.swiper-button-disabled {
+}
+// スクロールバー
+.swiper-scrollbar {
+  height: liquid(6);
+  border-radius: liquid(6);
+  background: #e9e9e9;
+
+  .drag {
+    height: liquid(10);
+    background: #161616;
+    border-radius: liquid(6);
+  }
+}
+// ページネーション
+.swiper-pagination {
+  position: relative !important;
+  top: initial !important;
+  left: initial !important;
+  right: initial !important;
+  bottom: initial !important;
+  margin: initial !important;
+  padding: 20px 0;
+
+  // ・
+  .swiper-pagination-bullet {
+    width: liquid(16) !important;
+    height: liquid(16) !important;
+    &.swiper-pagination-bullet-active {
+      background: #161616;
+      width: liquid(16) !important;
+      height: liquid(16) !important;
+    }
+  }
+
+  // 数字
+  font-size: liquid(20);
+  .swiper-pagination-current {
+    font-size: liquid(20);
+  }
+  .swiper-pagination-total {
+    font-size: liquid(20);
+  }
+}
+
+// --------------------------
+
+// 自動スライド
+
+// --------------------------
+.js-swiperAuto {
+  width: liquid($ITEM_W + $ITEM_GAP);
+  height: liquid($ITEM_H);
+  @include sp_w() {
+    width: liquid($ITEM_W_SP + $ITEM_GAP_SP);
+    height: liquid($ITEM_H_SP);
+  }
+
+  .swiper-wrapper {
+    height: 100%;
+  }
+  .swiper-slide {
+  }
+
+  .img {
+    height: 100%;
+    width: max-content;
+    width: liquid($ITEM_W + $ITEM_GAP);
+    height: liquid($ITEM_H);
+    @include sp_w() {
+      height: liquid($ITEM_H_SP);
+      width: liquid($ITEM_W_SP + $ITEM_GAP_SP);
+    }
+    img {
+      width: liquid($ITEM_W);
+      height: 100%;
+      @include sp_w() {
+        width: liquid($ITEM_W_SP);
+      }
+      object-fit: cover;
+    }
+  }
+}
