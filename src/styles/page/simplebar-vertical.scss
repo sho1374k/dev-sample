@@ -1,0 +1,67 @@
+@use "../global/app" as *;
+
+@use "../lib/_simplebar";
+
+// --------------------------
+
+// コンテナ
+.l-container {
+  padding: 80px 0;
+  width: 100vw;
+}
+
+// 個人情報保護
+.c-privacy {
+  width: 80vw;
+  max-width: 800px;
+  margin: auto;
+  height: 300px;
+  background: var(--black2);
+  border-radius: 4px;
+}
+.c-privacy__inner {
+  padding: 32px;
+  font-size: 16px;
+  color: var(--beige);
+}
+
+// --------------------------
+
+// lib simplebar 上書き
+
+// --------------------------
+$COLOR_SCROLL_BALL: gray;
+$COLOR_SCROLL_BAR: var(--beige);
+
+// スクロールバーのボール
+.simplebar-scrollbar {
+  top: 0px;
+  background: $COLOR_SCROLL_BALL;
+  border-radius: 10px;
+  padding: 1px 0;
+  overflow: hidden;
+}
+.simplebar-scrollbar::before {
+  background: $COLOR_SCROLL_BALL;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+// /スクロールバーの背景
+.simplebar-track {
+  border-radius: 10px;
+  background: $COLOR_SCROLL_BAR;
+}
+// スクロールバーを常に表示する
+.simplebar-scrollbar.simplebar-visible::before {
+  opacity: 1;
+}
+// 縦スクロールバーの位置
+.simplebar-track.simplebar-vertical {
+  top: 5%;
+  right: 16px;
+  height: 90%;
+  width: 4px;
+}
