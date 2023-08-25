@@ -1,0 +1,79 @@
+@use "../global/app" as *;
+
+@use "../lib/_simplebar";
+
+// コンテナ
+.l-container {
+  padding: 6vh 0;
+  margin: auto;
+  width: 100vw;
+  background: var(--beige);
+}
+
+// 横スクロールコンテンツ
+.c-horizontal {
+  width: 100vw;
+  height: calc(80vh + 4vh + 4vh);
+}
+.c-horizontal__inner {
+  display: flex;
+  padding: 4vh 0;
+}
+.c-horizontal__inner .img {
+  height: 80vh;
+  padding: 0 1.5vw;
+}
+.c-horizontal__inner .img:nth-of-type(1) {
+  padding-left: 3vw;
+}
+.c-horizontal__inner .img:nth-last-of-type(1) {
+  padding-right: 3vw;
+}
+.c-horizontal__inner .img img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+// --------------------------
+
+// lib simplebar 上書き
+
+// --------------------------
+$COLOR_SCROLL_BALL: var(--black);
+$COLOR_SCROLL_BAR: silver;
+
+.simplebar-track {
+  cursor: pointer;
+}
+// スクロールバーのボールの調整
+.simplebar-scrollbar {
+  top: 0px;
+  background: $COLOR_SCROLL_BALL;
+  border-radius: 10px;
+  padding: 1px 0;
+  overflow: hidden;
+}
+.simplebar-scrollbar::before {
+  background: $COLOR_SCROLL_BALL;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+// スクロールバーの背景
+.simplebar-track {
+  border-radius: 10px;
+  background: $COLOR_SCROLL_BAR;
+}
+// スクロールバーを常に表示
+.simplebar-scrollbar.simplebar-visible::before {
+  opacity: 1;
+}
+// 横スクロールバーの調整
+.simplebar-track.simplebar-horizontal {
+  height: 6px;
+  left: 3%;
+  width: 94%;
+}
