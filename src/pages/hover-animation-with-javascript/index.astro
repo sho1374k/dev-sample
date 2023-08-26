@@ -1,0 +1,331 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+body{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+	min-height: 100vh;
+}
+
+.l-container {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  gap: 32px;
+}
+
+.c-btn {
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border: none;
+  background: #fff;
+  border: solid 1px #161616;
+  padding: 12px 36px;
+}
+.c-btn__text {
+  pointer-events: none;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: difference;
+  color: #eef0f2;
+}
+.c-btn::before {
+  pointer-events: none;
+  user-select: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: #161616;
+  transform: scale(0, 1);
+  transform-origin: right;
+  transition: 0.4s ease-in-out transform;
+}
+@media (hover: hover) {
+  .c-btn {
+  }
+  .c-btn.is-hover::before {
+    transform: scale(1, 1);
+    transform-origin: left;
+  }
+  .c-btn.is-hoverLink::before {
+    transform: scale(1, 1);
+    transform-origin: left;
+  }
+}
+</style>
+
+<Layout title="Hover Animation with JavaScript">
+	<div class="l-container">
+		<button class="c-btn js-hover">
+			<span class="c-btn__text">Button</span>
+		</button>
+	
+		<button class="c-btn js-hoverLink" id="btnLink1" data-target-id="btnLink2">
+			<span class="c-btn__text">Button Link 1</span>
+		</button>
+	
+		<button class="c-btn js-hoverLink" id="btnLink2" data-target-id="btnLink1">
+			<span class="c-btn__text">Button Link 2</span>
+		</button>
+	</div>
+</Layout>
+
+<script lang="javascript">
+	class Hover {
+  constructor() {
+    this.isPageEnter = true;
+    this.isMatchMediaHover = window.matchMedia("(hover: hover)").matches;
+    this.interval = 400; // `HoverEnterイベント`と`HoverLeaveイベント`のdom更新の処理が被らないようにするため
+
+    this.className = {
+      hover: "is-hover",
+      hoverLink: "is-hoverLink",
+    };
+
+    this.toHoverEnter = this.toHoverEnter.bind(this);
+    this.toHoverLeave = this.toHoverLeave.bind(this);
+    this.toHoverLinkEnter = this.toHoverLinkEnter.bind(this);
+    this.toHoverLinkLeave = this.toHoverLinkLeave.bind(this);
+  }
+
+  /**
+   * @param {number} time 遅延時間
+   * @returns
+   */
+  delay(time) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
+
+  reset() {
+    this.isPageEnter = false;
+
+    if (this.hoverList.length > 0) {
+      this.hoverList.forEach((ele, i) => {
+        ele.removeEventListener("mouseenter", this.toHoverEnter);
+        ele.removeEventListener("mouseleave", this.toHoverLeave);
+        if (this.hoverList.length - 1 === i) {
+          this.hoverList = [];
+        }
+      });
+    }
+    if (this.linkList.length > 0) {
+      this.linkList.forEach((ele, i) => {
+        ele.removeEventListener("mouseenter", this.toHoverLinkEnter);
+        ele.removeEventListener("mouseleave", this.toHoverLinkLeave);
+        if (this.linkList.length - 1 === i) {
+          this.linkList = [];
+        }
+      });
+    }
+  }
+
+  /**
+   * @param {event} e // `mouseenter`イベント
+   */
+  toHoverEnter(e) {
+    const ele = e.target;
+    let isHover = ele.getAttribute("data-hover") === "true";
+    if (isHover && this.isPageEnter) {
+      ele.classList.add(this.className.hover);
+      ele.setAttribute("data-hover", "false");
+
+      setTimeout(() => {
+        isHover = ele.getAttribute("data-hover");
+        if (isHover === "out") {
+          // `toHoverEnter`の処理完了を待たずにHoverLeaveした時の処理
+          ele.setAttribute("data-hover", "leave");
+          this.toHoverLeave(e);
+        } else if (isHover === "false") {
+          // Hover中の処理
+          ele.setAttribute("data-hover", "leave");
+        } else {
+          // それ以外
+        }
+      }, this.interval);
+    }
+  }
+
+  /**
+   * @param {event} e // `mouseleave`イベント
+   */
+  toHoverLeave(e) {
+    if (this.isPageEnter) {
+      const ele = e.target,
+        isHover = ele.getAttribute("data-hover");
+      if (isHover === "leave") {
+        !(async () => {
+          await this.delay(0);
+          ele.setAttribute("data-hover", "run");
+
+          await this.delay(100);
+          ele.classList.remove(this.className.hover);
+
+          await this.delay(this.interval);
+          let delay = 0;
+          if (ele.classList.contains(this.className.hover)) {
+            ele.classList.remove(this.className.hover);
+            delay = this.interval;
+          }
+          setTimeout(() => {
+            ele.setAttribute("data-hover", "true");
+          }, delay);
+        })();
+      } else if (isHover === "false") {
+        // `toHoverEnter`の処理完了を待たずにHoverLeaveした時の処理
+        ele.setAttribute("data-hover", "out");
+      } else {
+        // それ以外
+      }
+    }
+  }
+
+  /**
+   * @param {event} e // `mouseenter`イベント
+   */
+  toHoverLinkEnter(e) {
+    const ele = e.target;
+    let isHover = ele.getAttribute("data-hover") === "true";
+
+    if (isHover && this.isPageEnter) {
+      // 相互リンク先を取得
+      const target = document.getElementById(ele.getAttribute("data-target-id"));
+
+      // ステートを更新
+      ele.setAttribute("data-hover", "false");
+      ele.classList.add(this.className.hover);
+      target.setAttribute("data-hover", "false");
+      target.classList.add(this.className.hoverLink);
+
+      setTimeout(() => {
+        isHover = ele.getAttribute("data-hover");
+        if (isHover === "out") {
+          // `toHoverLinkEnter`の処理完了を待たずにHoverLeaveした時の処理
+          ele.setAttribute("data-hover", "leave");
+          target.setAttribute("data-hover", "leave");
+          this.toHoverLinkLeave(e);
+        } else if (isHover === "false") {
+          // Hover中の処理
+          ele.setAttribute("data-hover", "leave");
+          target.setAttribute("data-hover", "leave");
+        } else {
+          // それ以外
+        }
+      }, this.interval);
+    }
+  }
+
+  /**
+   * @param {event} e // `mouseleave`イベント
+   */
+  toHoverLinkLeave(e) {
+    if (this.isPageEnter) {
+      const ele = e.target,
+        target = document.getElementById(ele.getAttribute("data-target-id")),
+        isHover = ele.getAttribute("data-hover");
+
+      if (isHover === "leave") {
+        // ステートを更新
+        !(async () => {
+          await this.delay(0);
+          ele.setAttribute("data-hover", "run");
+          target.setAttribute("data-hover", "run");
+
+          await this.delay(100);
+          ele.classList.remove(this.className.hover);
+          target.classList.remove(this.className.hoverLink);
+
+          await this.delay(this.interval);
+          let delay = 0;
+          if (ele.classList.contains(this.className.hover)) {
+            ele.classList.remove(this.className.hover);
+            delay = this.interval;
+          }
+          if (target.classList.contains(this.className.hover)) {
+            target.classList.remove(this.className.hover);
+            delay = this.interval;
+          }
+          setTimeout(() => {
+            ele.setAttribute("data-hover", "true");
+            target.setAttribute("data-hover", "true");
+          }, delay);
+        })();
+      } else if (isHover === "false") {
+        // `toHoverLinkEnter`の処理完了を待たずにHoverLeaveした時の処理
+        // ステートを更新
+        ele.setAttribute("data-hover", "out");
+        target.setAttribute("data-hover", "out");
+      } else {
+        // それ以外
+      }
+    }
+  }
+
+  init() {
+    this.isPageEnter = true;
+    this.hoverList = [];
+    this.linkList = [];
+
+    if (this.isMatchMediaHover) {
+      // --------------------------
+
+      // 相互リンクHover
+
+      // --------------------------
+      this.linkList = [...document.querySelectorAll(".js-hoverLink")];
+      if (this.linkList.length > 0) {
+        this.linkList.forEach((ele) => {
+          ele.setAttribute("data-hover", true);
+          ele.classList.remove(this.className.hover);
+
+          ele.addEventListener("mouseenter", this.toHoverLinkEnter, {
+            passive: true,
+          });
+          ele.addEventListener("mouseleave", this.toHoverLinkLeave);
+        });
+      }
+
+      // --------------------------
+
+      // 単体Hover
+      // 相互リンクHoverより下に記述すること・・・アニメーションのバッディングが生じるため
+
+      // --------------------------
+      this.hoverList = [...document.querySelectorAll(".js-hover")];
+      if (this.hoverList.length > 0) {
+        this.hoverList.forEach((ele) => {
+          ele.setAttribute("data-hover", true);
+          ele.classList.remove(this.className.hover);
+
+          ele.addEventListener("mouseenter", this.toHoverEnter, {
+            passive: true,
+          });
+          ele.addEventListener("mouseleave", this.toHoverLeave);
+        });
+      }
+    }
+  }
+}
+
+const hover = new Hover();
+hover.init();
+</script>
