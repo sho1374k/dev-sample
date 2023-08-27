@@ -1,0 +1,130 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--beige);
+}
+
+h1{
+  font-size: 32px;
+  font-weight: bold;
+  padding: 0 0 8px;
+  color: var(--black2);
+}
+
+.box {
+  width: 90vw;
+  margin: auto;
+  margin: 16px 0;
+}
+
+label {
+  display: block;
+  width: 120px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 0;
+  color: var(--black2);
+}
+
+input {
+  width: 400px;
+  padding: 8px;
+  font-size: 16px;
+  line-height: 120%;
+  border-radius: 4px;
+  color: var(--black2);
+}
+button {
+  margin-left: 12px;
+  display: inline-block;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  line-height: 120%;
+  background: var(--black2);
+  color: var(--beige);
+  font-size: 16px;
+  border-radius: 4px;
+}
+a {
+  color: #006ad5;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+</style>
+
+<Layout title="API ~ zip code search">
+  <div class="l-container">
+    <h1>郵便番号検索API</h1>
+    <div class="box">
+      <label for="zip">郵便番号</label>
+      <input type="text" name="zip" id="zip" placeholder="100-0005" autocomplete="postal-code" />
+      <button id="zipSearchBtn">住所を検索する</button>
+    </div>
+    <div class="box">
+      <label for="address">住所</label>
+      <input
+        type="text"
+        name="address"
+        id="address"
+        placeholder="東京都千代田区丸の内１丁目"
+        autocomplete="address-level1"
+      />
+    </div>
+    <a href="http://zipcloud.ibsnet.co.jp/doc/api" target="_blank" rel="noopener noreferrer">Reference：日本郵便の郵便番号データ配信サービス</a>
+  </div>
+</Layout>
+
+<script lang="javascript">
+const API_URL = "https://zipcloud.ibsnet.co.jp/api/search?zipcode=";
+
+const format = {
+  zip1: /^\d{3}-?\d{4}$/, //郵便番号 | ハイフン有り
+  zip2: /^0\d{7}$/, //郵便番号 | ハイフン無し
+};
+
+const searchBtn = document.getElementById("zipSearchBtn"),
+  zip = document.getElementById("zip"),
+  address = document.getElementById("address");
+
+const getAddress = (text) => {
+  const url = API_URL + text;
+  fetch(url)
+    .then((data) => {
+      return data.json();
+    })
+    .then((data) => {
+      if (data.results != null) {
+        address.value = `${data.results[0].address1}${data.results[0].address2}${data.results[0].address3}`;
+      } else {
+        alert("該当する住所が見つかりませんでした。");
+      }
+    })
+    .catch((error) => {
+      alert("住所検索に失敗しました。");
+    });
+};
+
+searchBtn.addEventListener("click", (e) => {
+  console.log(zip.value);
+  if (zip.value != "") {
+    // 郵便番号の形式かチェック
+    if (format.zip1.test(zip.value) || format.zip2.test(zip.value)) {
+      getAddress(zip.value);
+    } else {
+      alert("郵便番号の形式で入力してください。");
+    }
+  } else {
+    alert("郵便番号を入力してください。");
+  }
+});
+</script>
