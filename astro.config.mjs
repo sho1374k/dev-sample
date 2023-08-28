@@ -53,26 +53,26 @@ export default defineConfig({
         plugins: [postcssMergeQueries],
       },
     },
-    server: {
-      open: true,
-      port: 3000,
-    },
-    preview: {
-      open: true,
-      port: 3000,
-      host: true,
-    },
+    // server: {
+    //   open: true,
+    //   port: 3000,
+    // },
+    // preview: {
+    //   open: true,
+    //   port: 4000,
+    //   host: true,
+    // },
   },
   plugins: ["prettier-plugin-astro"],
   integrations: [],
   server: {
     open: true,
     host: true,
-    port: 3000,
+    port: MODE === "production" ? 4000 : 3000,
   },
-  preview: {
-    open: true,
-    host: true,
-    port: 3000,
-  },
+  // preview: {
+  //   open: true,
+  //   host: true,
+  //   port: 4000,
+  // },
 });
