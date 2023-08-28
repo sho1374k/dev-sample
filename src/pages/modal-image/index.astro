@@ -1,0 +1,237 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+body {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  background: var(--beige);
+}
+
+/* コンテナ */
+.l-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: max-content;
+  max-width: 90vw;
+  height: max-content;
+  margin: auto;
+}
+.l-container .img {
+  cursor: pointer;
+  width: 240px;
+  height: 240px;
+  opacity: 1;
+  transition: 0.4s ease opacity;
+}
+.l-container .img:hover {
+  opacity: 0.5;
+}
+.l-container .img img {
+  pointer-events: none;
+  user-select: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.l-modalImg {
+  pointer-events: none;
+  user-select: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  transition: 0.4s ease opacity;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l-modalImg__bg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(#fff, 0.5);
+}
+.l-modalImg__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 32px;
+  width: max-content;
+  height: max-content;
+  z-index: 1;
+}
+.l-modalImg__img {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.l-modalImg__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 0;
+  font-size: 32px;
+  line-height: 100%;
+  width: max-content;
+  height: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.is-openModalImg .l-modalImg {
+  pointer-events: initial;
+  user-select: initial;
+  opacity: 1;
+}
+body.is-openModalImg .l-modalImg__img {
+  opacity: 0;
+  animation: 0.4s ease isFadeIn forwards;
+}
+@keyframes isFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.js-modalImgBtn,
+.js-modalImgCloseBtn {
+  cursor: pointer;
+}
+</style>
+
+<Layout title="Modal image">
+  <div class="l-container">
+    <div class="img js-modalImgBtn">
+      <img src="/assets/img/dummy/img1.webp" alt="" width="2880" height="1600">
+    </div>
+    <div class="img js-modalImgBtn">
+      <img src="/assets/img/dummy/img2.webp" alt="" width="2880" height="1600">
+    </div>
+    <div class="img js-modalImgBtn">
+      <img src="/assets/img/dummy/img3.webp" alt="" width="2880" height="1600">
+    </div>
+  </div>
+  
+  <div class="l-modalImg" id="modalImg">
+    <div class="l-modalImg__bg js-modalImgCloseBtn"></div>
+    <div class="l-modalImg__close js-modalImgCloseBtn">×</div>
+    <div class="l-modalImg__img" id="modalImgTarget"></div>
+  </div>
+</Layout>
+
+<script lang="javascript">
+const STYLE_IMG = `
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 80vw;
+  max-height: 80vh;
+`.replace(/\n/g, "").replace(/ /g, "");
+
+class ModalImg {
+  constructor(body = document.body) {
+    this.body = body;
+    this.bodyClassList = this.body.classList;
+
+    this.className = {
+      open: "is-openModalImg",
+    };
+
+    this.isPageEnter = true;
+    this.isAbleToClick = true;
+    this.interval = 200;
+  }
+
+  reset() {
+    this.isPageEnter = false;
+    this.isAbleToClick = false;
+  }
+
+  removeClassName() {
+    if (this.bodyClassList.contains(this.className.open)) this.bodyClassList.remove(this.className.open);
+  }
+
+  addClassName() {
+    this.bodyClassList.add(this.className.open);
+  }
+
+  toCloseModal() {
+    if (this.isPageEnter) {
+      this.isAbleToClick = false;
+      this.removeClassName();
+      setTimeout(() => {
+        if (this.isPageEnter) this.isAbleToClick = true;
+      }, this.interval);
+    }
+  }
+
+  /**
+   * @param {event} e // クリックイベント
+   */
+  toOpenModal(e) {
+    if (this.isPageEnter) {
+      this.isAbleToClick = false;
+
+      const ele = e.target;
+      const src = ele.querySelector("img").getAttribute("src");
+      const style = STYLE_IMG;
+      const img = `<img class="modalImg" src="${src}" alt="" style="${style}">`;
+
+      this.target.innerHTML = img;
+
+      this.addClassName();
+      setTimeout(() => {
+        if (this.isPageEnter) this.isAbleToClick = true;
+      }, this.interval);
+    }
+  }
+
+  init() {
+    console.log("🚀 ~ Modal Image");
+
+    this.isPageEnter = true;
+    this.isAbleToClick = true;
+
+    this.btnList = [...document.querySelectorAll(".js-modalImgBtn")];
+    this.closeList = [...document.querySelectorAll(".js-modalImgCloseBtn")];
+    this.target = document.getElementById("modalImgTarget");
+
+    // 開くボタン
+    this.btnList.forEach((ele) => {
+      ele.addEventListener("click", (e) => {
+        if (this.isAbleToClick && this.isPageEnter) this.toOpenModal(e);
+      });
+    });
+
+    // 閉じるボタン
+    this.closeList.forEach((ele) => {
+      ele.addEventListener("click", (e) => {
+        if (this.isAbleToClick && this.isPageEnter) this.toCloseModal();
+      });
+    });
+  }
+}
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  const modal = new ModalImg();
+  modal.init();
+});
+</script>
