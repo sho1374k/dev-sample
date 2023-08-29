@@ -1,0 +1,445 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+body {
+  background: var(--black2);
+  min-height: 100svh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+}
+
+/* コンテナ */
+.l-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: max-content;
+  max-width: 90vw;
+  height: max-content;
+  margin: auto;
+}
+
+/* ボタン | モーダル */
+.c-btnModal {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 16px;
+  width: max-content;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  opacity: 1;
+  transition: 0.4s ease opacity;
+}
+.c-btnModal:hover {
+  opacity: 0.5;
+}
+.c-btnModal-1 {
+  background: #b65e61;
+}
+.c-btnModal-2 {
+  background: #dea99e;
+}
+.c-btnModal-3 {
+  background: #86995f;
+}
+
+/* ボタン | 閉じる */
+.c-btnClose {
+  cursor: pointer;
+  display: flex;
+  font-size: 32px;
+  width: max-content;
+  height: max-content;
+  opacity: 1;
+  transition: 0.4s ease opacity;
+}
+.c-btnClose:hover {
+  opacity: 0.5;
+}
+
+/* ボタン | ページャー */
+.c-btnPrev,
+.c-btnNext {
+  cursor: pointer;
+  display: flex;
+  font-size: 24px;
+  width: max-content;
+  height: max-content;
+  opacity: 1;
+  transition: 0.4s ease opacity;
+}
+.c-btnPrev:hover,
+.c-btnNext:hover {
+  opacity: 0.5;
+}
+
+/* モーダル */
+.l-modal {
+  pointer-events: none;
+  user-select: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: 0.4s ease opacity;
+  overflow: scroll;
+}
+.l-modal.is-openModalId {
+  user-select: initial;
+  pointer-events: initial;
+  opacity: 1;
+}
+.l-modal__inner {
+  padding: 120px 0;
+  width: 80vw;
+  margin: 0 auto;
+}
+.l-modal__close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 200;
+}
+.l-modal__pg {
+  position: fixed;
+  top: 24px;
+  right: 48px;
+  z-index: 200;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.l-modal__caption {
+  margin: auto;
+  font-size: 24px;
+  font-weight: bold;
+}
+.l-modal__img {
+  margin: 16px auto 0;
+}
+.l-modal__img img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.l-modal__text {
+  margin: 16px auto 0;
+}
+.l-modal__text a {
+  color: #161616;
+  opacity: 1;
+  transition: 0.4s ease opacity;
+}
+.l-modal__text a:hover {
+  opacity: 0.5;
+}
+
+body.is-openModalId {
+  overflow: hidden;
+}
+
+/* モーダルの背景色 */
+.l-modalBg {
+  pointer-events: none;
+  user-select: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  opacity: 0;
+  transition: 0.4s ease opacity;
+  background: #def8ff7a;
+}
+body.is-openModalId .l-modalBg {
+  opacity: 1;
+}
+</style>
+
+<Layout title="Modal image">
+  <div class="l-container">
+    <button class="c-btnModal c-btnModal-1 js-modalBtn" data-modal-id="modal1">「No.1 Modal」を開く</button>
+    <button class="c-btnModal c-btnModal-2 js-modalBtn" data-modal-id="modal2">「No.2 Modal」を開く</button>
+    <button class="c-btnModal c-btnModal-3 js-modalBtn" data-modal-id="modal3">「No.3 Modal」を開く</button>
+  </div>
+  
+  <!-- No.1 Modal -->
+  <div class="l-modal" id="modal1">
+    <div class="l-modal__close">
+      <div class="c-btnClose js-modalCloseBtn" data-modal-id="modal1">×</div>
+    </div>
+    <div class="l-modal__pg">
+      <div class="c-btnPrev js-modalPrevBtn" data-modal-id="modal3">◀︎</div>
+      <div class="c-btnNext js-modalNextBtn" data-modal-id="modal2">▶︎</div>
+    </div>
+    <div class="l-modal__inner">
+      <h2 class="l-modal__caption">No.1 Modal</h2>
+      <p class="l-modal__text">
+        <a href="#" target="_blank" rel="noopener noreferrer"
+          >このサイトを見に行く</a
+        >
+      </p>
+      <div class="l-modal__img">
+        <img src="/assets/img/dummy/img1.webp" alt="" width="2880" height="1600">
+      </div>
+      <p class="l-modal__text">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。<br />
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </p>
+      <div class="l-modal__img">
+        <img src="/assets/img/dummy/img1.webp" alt="" width="2880" height="1600">
+      </div>
+      <p class="l-modal__text">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。<br />
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </p>
+    </div>
+  </div>
+  <!-- No.2 Modal -->
+  <div class="l-modal" id="modal2">
+    <div class="l-modal__close">
+      <div class="c-btnClose js-modalCloseBtn" data-modal-id="modal2">×</div>
+    </div>
+    <div class="l-modal__pg">
+      <div class="c-btnPrev js-modalPrevBtn" data-modal-id="modal1">◀︎</div>
+      <div class="c-btnNext js-modalNextBtn" data-modal-id="modal3">▶︎</div>
+    </div>
+    <div class="l-modal__inner">
+      <h2 class="l-modal__caption">No.2 Modal</h2>
+      <p class="l-modal__text">
+        <a href="#" target="_blank" rel="noopener noreferrer"
+          >このサイトを見に行く</a
+        >
+      </p>
+      <div class="l-modal__img">
+        <img src="/assets/img/dummy/img2.webp" alt="" width="2880" height="1600">
+      </div>
+      <p class="l-modal__text">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。<br />
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </p>
+      <div class="l-modal__img">
+        <img src="/assets/img/dummy/img2.webp" alt="" width="2880" height="1600">
+      </div>
+      <p class="l-modal__text">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。<br />
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </p>
+    </div>
+  </div>
+  <!-- No.3 Modal -->
+  <div class="l-modal" id="modal3">
+    <div class="l-modal__close">
+      <div class="c-btnClose js-modalCloseBtn" data-modal-id="modal3">×</div>
+    </div>
+    <div class="l-modal__pg">
+      <div class="c-btnPrev js-modalPrevBtn" data-modal-id="modal2">◀︎</div>
+      <div class="c-btnNext js-modalNextBtn" data-modal-id="modal1">▶︎</div>
+    </div>
+    <div class="l-modal__inner">
+      <h2 class="l-modal__caption">No.3 Modal</h2>
+      <p class="l-modal__text">
+        <a href="#" target="_blank" rel="noopener noreferrer"
+          >このサイトを見に行く</a
+        >
+      </p>
+      <div class="l-modal__img">
+        <img src="/assets/img/dummy/img3.webp" alt="" width="2880" height="1600">
+      </div>
+      <p class="l-modal__text">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。<br />
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </p>
+      <div class="l-modal__img">
+        <img src="/assets/img/dummy/img3.webp" alt="" width="2880" height="1600">
+      </div>
+      <p class="l-modal__text">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。<br />
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </p>
+    </div>
+  </div>
+  
+  <div class="l-modalBg"></div>
+</Layout>
+
+<script lang="javascript">
+class ModalId {
+  constructor(body = document.body) {
+    this.body = body;
+    this.bodyClassList = body.classList;
+
+    this.timer = {
+      modal: null,
+    };
+
+    this.className = {
+      open: "is-openModalId",
+    };
+
+    this.isOpenModal = false;
+    this.isAbleToClick = true;
+    this.interval = 500;
+    this.currentId = "";
+  }
+
+  removeClassName() {
+    if (this.bodyClassList.contains(this.className.open)) this.bodyClassList.remove(this.className.open);
+  }
+
+  addClassName() {
+    this.bodyClassList.add(this.className.open);
+  }
+
+  reset() {
+    this.isOpenModal = false;
+    this.isAbleToClick = false;
+    clearTimeout(this.timer.modal);
+    this.currentId = "";
+  }
+
+  toCloseModal(target) {
+    console.log("open");
+    this.isOpenModal = false;
+    this.removeClassName();
+    if (target.classList.contains(this.className.open)) target.classList.remove(this.className.open);
+  }
+
+  toOpenModal(target) {
+    console.log("close");
+    this.isOpenModal = true;
+    this.addClassName();
+    target.classList.add(this.className.open);
+  }
+
+  toClick(ele) {
+    console.log("isClick");
+    if (this.isAbleToClick) {
+      this.isAbleToClick = false;
+
+      const targetId = ele.getAttribute("data-modal-id");
+      console.log(targetId);
+      if (targetId) {
+        this.currentId = targetId;
+        const target = document.getElementById(targetId);
+        target.scrollTo(0, 0);
+        console.log(target);
+        if (this.isOpenModal) {
+          this.currentId = "";
+          this.toCloseModal(target);
+        } else {
+          this.currentId = targetId;
+          this.toOpenModal(target);
+        }
+
+        clearTimeout(this.timer.modal);
+        this.timer.modal = setTimeout(() => {
+          this.isAbleToClick = true;
+        }, this.interval);
+      } else {
+        this.isAbleToClick = true;
+        this.isOpenModal = false;
+      }
+    }
+  }
+
+  toChange(ele) {
+    if (this.isAbleToClick) {
+      this.isAbleToClick = false;
+      const currentTarget = document.getElementById(this.currentId);
+      if (currentTarget) {
+        this.currentId = "";
+        this.toCloseModal(currentTarget);
+      }
+
+      const targetId = ele.getAttribute("data-modal-id");
+      if (targetId) {
+        this.currentId = targetId;
+        const target = document.getElementById(targetId);
+        target.scrollTo(0, 0);
+        if (this.isOpenModal) {
+          this.currentId = "";
+          this.toCloseModal(target);
+        } else {
+          this.currentId = targetId;
+          this.toOpenModal(target);
+        }
+
+        clearTimeout(this.timer.modal);
+        this.timer.modal = setTimeout(() => {
+          this.isAbleToClick = true;
+        }, this.interval);
+      } else {
+        this.isAbleToClick = true;
+        this.isOpenModal = false;
+      }
+    }
+  }
+
+  init() {
+    console.log("🚀 ~ Modal init");
+    this.isOpenModal = false;
+    this.isAbleToClick = true;
+
+    // 開くボタン
+    this.modalBtnList = [...document.querySelectorAll(".js-modalBtn")];
+    if (this.modalBtnList) {
+      this.modalBtnList.forEach((ele) => {
+        ele.addEventListener("click", (e) => {
+          this.toClick(ele);
+        });
+      });
+    }
+
+    // 閉じるボタン
+    this.closeBtnList = [...document.querySelectorAll(".js-modalCloseBtn")];
+    if (this.closeBtnList) {
+      this.closeBtnList.forEach((ele) => {
+        ele.addEventListener("click", (e) => {
+          this.toClick(ele);
+        });
+      });
+    }
+
+    // prevボタン
+    this.prevBtnList = [...document.querySelectorAll(".js-modalPrevBtn")];
+    if (this.prevBtnList) {
+      this.prevBtnList.forEach((ele) => {
+        ele.addEventListener("click", (e) => {
+          this.toChange(ele);
+        });
+      });
+    }
+
+    // nextボタン
+    this.nextBtnList = [...document.querySelectorAll(".js-modalNextBtn")];
+    if (this.nextBtnList) {
+      this.nextBtnList.forEach((ele) => {
+        ele.addEventListener("click", (e) => {
+          this.toChange(ele);
+        });
+      });
+    }
+  }
+}
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  const modalId = new ModalId();
+  modalId.init();
+});
+</script>
