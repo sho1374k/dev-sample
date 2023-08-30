@@ -1,0 +1,283 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+.l-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  width: 100svw;
+  margin: auto;
+  height: 80px;
+  background: #ffffff35;
+  z-index: 200;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+}
+.l-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 16px;
+  line-height: 100%;
+}
+
+.l-nav {
+  position: fixed;
+  top: 0;
+  left: 16px;
+  bottom: 0;
+  width: max-content;
+  height: max-content;
+  margin: auto;
+  z-index: 100;
+}
+.l-nav li {
+  margin-bottom: 16px;
+}
+.l-nav li:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+.l-nav li a {
+  cursor: pointer;
+  display: block;
+  padding: 2px 0;
+  text-decoration: underline;
+  color: #161616;
+  font-size: 16px;
+  opacity: 1;
+  transition: 0.5s ease opacity;
+}
+@media (hover: hover) {
+  .l-nav li a:hover {
+    opacity: 0.4;
+  }
+}
+
+.c-scrollTop {
+  cursor: pointer;
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  background: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  font-size: 16px;
+  opacity: 1;
+  transition: 0.4s ease opacity;
+}
+@media (hover: hover) {
+  .c-scrollTop:hover {
+    opacity: 0.5;
+  }
+}
+
+.p-section {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+.p-sectoin-fv {
+  background: #abdbc7;
+}
+.p-section-first {
+  background: #fff7eb;
+}
+.p-section-second {
+  background: #f4e5c3;
+}
+.p-section-third {
+  background: #e1c194;
+}
+.p-section-forth {
+  background: #cf9285;
+}
+
+.l-footer {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  background: #abdbc7;
+}
+</style>
+
+<Layout title="Modal image">
+  <header class="l-header" id="header">
+    <h1>Smooth scroll to Anker link</h1>
+  </header>
+  
+  <nav class="l-nav">
+    <ul>
+      <li>
+        <a href="#sec_first">Section.1</a>
+      </li>
+      <li>
+        <a href="#sec_second">Section.2</a>
+      </li>
+      <li>
+        <a href="#sec_third">Section.3</a>
+      </li>
+      <li>
+        <a href="#sec_forth">Section.4</a>
+      </li>
+    </ul>
+  </nav>
+  
+  <button class="c-scrollTop" id="scrollTop" aria-label="スクロールしてトップに戻る">⬆︎</button>
+  
+  <section class="p-section p-sectoin-fv" id="sec_fv">
+    <h2>Fv</h2>
+  </section>
+  <section class="p-section p-section-first" id="sec_first">
+    <h2>Section.1</h2>
+  </section>
+  <section class="p-section p-section-second" id="sec_second">
+    <h2>Section.2</h2>
+  </section>
+  <section class="p-section p-section-third" id="sec_third">
+    <h2>Section.3</h2>
+  </section>
+  <section class="p-section p-section-forth" id="sec_forth">
+    <h2>Section.4</h2>
+  </section>
+  
+  <footer class="l-footer">
+    <h2>Footer</h2>
+  </footer>
+</Layout>
+
+<script lang="javascript">
+class AnkerLink {
+  constructor() {
+    this.idName = {
+      header: "header",
+      scrollTop: "scrollTop",
+    };
+
+    this.distanceFromTop = 0;
+  }
+
+  /**
+   * スムーススクロール
+   * @param {Number} y
+   * @param {Number} x
+   */
+  scrollTo(y = 0, x = 0) {
+    window.scrollTo({
+      top: y,
+      left: x,
+      behavior: "smooth", // ページ内ではスムーススクロールを設定
+    });
+  }
+
+  /**
+   * 移動先の座標を取得しスムーススクロールをする
+   * @param {Event} e // クリックイベント
+   */
+  setScrollPosition(e) {
+    e.preventDefault();
+    const href = e.target.getAttribute("href"),
+      string = href.slice(0, 1),
+      header = document.getElementById(this.idName.header),
+      offset = header ? header.getBoundingClientRect().height + this.distanceFromTop : this.distanceFromTop;
+
+    if (string === "#" && (href != "" || href != "#")) {
+      const target = document.querySelector(href);
+      if (target) {
+        const y = target.getBoundingClientRect().top - offset + window.pageYOffset;
+        this.scrollTo(y, 0);
+      }
+    }
+  }
+
+  /**
+   * 初期位置の座標を取得し移動する
+   */
+  setInitPosition() {
+    let id = null,
+      y = 0;
+    const delay = 200,
+      hash = window.location.hash,
+      query = this.getParameter("id"),
+      header = document.getElementById(this.idName.header),
+      offset = header ? header.getBoundingClientRect().height + this.distanceFromTop : this.distanceFromTop;
+
+    if (hash != "") {
+      id = document.querySelector(hash);
+      if (id != null) {
+        y = id.getBoundingClientRect().top - offset + window.pageYOffset;
+        setTimeout(() => {
+          window.scrollTo(0, y);
+        }, delay);
+      }
+    } else if (query != "" && query != null) {
+      id = document.getElementById(`${query}`);
+      if (id != null) {
+        y = id.getBoundingClientRect().top - offset + window.pageYOffset;
+        setTimeout(() => {
+          window.scrollTo(0, y);
+        }, delay);
+      }
+    }
+  }
+
+  /**
+   * GETパラメータのキーから値を取得し返す
+   * @param {String} name // 取得したいGETパラメータのキー
+   * @returns GETパラメータ値
+   */
+  getParameter(name) {
+    // https://www-creators.com/archives/4463
+    name = name.replace(/[\[\]]/g, "\\$&");
+    let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(window.location.href);
+    if (!results) return null;
+    if (!results[2]) return "";
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  init() {
+    this.setInitPosition();
+
+    const linkList = [...document.querySelectorAll("a[href^='#']")];
+    if (linkList) {
+      linkList.forEach((ele) => {
+        ele.addEventListener("click", this.setScrollPosition.bind(this));
+      });
+    }
+
+    const scrollTop = document.getElementById(this.idName.scrollTop);
+    if (scrollTop) {
+      scrollTop.addEventListener("click", (e) => {
+        this.scrollTo(0, 0);
+      });
+    }
+  }
+}
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  const anker = new AnkerLink();
+  anker.init();
+});
+</script>
