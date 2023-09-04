@@ -1,0 +1,276 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+body{
+  background: var(--black2);
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+summary {
+  display: block; /* list-item; → 三角形のアイコンを表示する */
+  cursor: pointer;
+}
+summary::-webkit-details-marker {
+  /* Safariの三角形アイコンを非表示にする */
+  display: none;
+}
+
+.c-details {
+  width: 90vw;
+  max-width: 600px;
+  margin: auto;
+  background: var(--beige);
+  border-radius: 8px;
+}
+.c-details__summary {
+  position: relative;
+  z-index: 0;
+  background: #2b4055;
+  color: var(--beige);
+  padding: 16px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+.c-details__summary::after {
+  content: "▼";
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+  top: 0;
+  right: 16px;
+  bottom: 0;
+  margin: auto;
+  z-index: 0;
+  color: var(--beige);
+  width: max-content;
+  height: max-content;
+  transform: rotateZ(0deg);
+  transition: 0.4s ease transform;
+}
+/* .c-details[open="true"] .c-details__summary::after { */
+.c-details[data-status="open"] .c-details__summary::after {
+  transform: rotateZ(180deg);
+}
+@media (hover: hover) {
+  .c-details__summary {
+    opacity: 1;
+    transition: 0.4s ease opacity;
+  }
+  .c-details__summary:hover {
+    opacity: 0.75;
+  }
+}
+.c-details__content {
+  overflow: hidden;
+  border-radius: 0 0 8px 8px;
+}
+.c-details__inner {
+  padding: 16px 24px;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.l-container {
+  padding: 64px 0;
+}
+.l-container .c-details {
+  margin-bottom: 24px;
+}
+</style>
+
+<Layout title="Modal image">
+  <div class="l-container">
+    <details class="c-details">
+      <summary class="c-details__summary">
+        <h2>1 | Accordion Menu</h2>
+      </summary>
+      <div class="c-details__content">
+        <p class="c-details__inner">
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+        </p>
+      </div>
+    </details>
+  
+    <details class="c-details">
+      <summary class="c-details__summary">
+        <h2>2 | Accordion Menu</h2>
+      </summary>
+      <div class="c-details__content">
+        <p class="c-details__inner">
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere,
+          magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Lorem
+          ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna
+          sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+        </p>
+      </div>
+    </details>
+  
+    <details class="c-details">
+      <summary class="c-details__summary">
+        <h2>3 | Accordion Menu</h2>
+      </summary>
+      <div class="c-details__content">
+        <p class="c-details__inner">
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+        </p>
+      </div>
+    </details>
+  
+    <details class="c-details">
+      <summary class="c-details__summary">
+        <h2>4 | Accordion Menu</h2>
+      </summary>
+      <div class="c-details__content">
+        <p class="c-details__inner">
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere,
+          magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Lorem
+          ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna
+          sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+        </p>
+      </div>
+    </details>
+  </div>
+</Layout>
+
+<script lang="javascript">
+class Accordion {
+  constructor() {
+    this.isMatchMedia = window.matchMedia("(max-width: 768px)").matches;
+    this.config = {
+      duration: 300,
+      easing: "ease",
+    };
+  }
+
+  reset() {}
+
+  resizeAfter() {
+    this.detailsList.forEach((ele) => {
+      const summary = ele.querySelector("summary"),
+        content = summary.nextElementSibling;
+      content.style.height = "auto";
+    });
+  }
+
+  /**
+   * @param {element} obj.details // コンテナ
+   * @param {element} obj.summary // 開閉ボタン
+   * @param {element} obj.content // 開閉要素
+   */
+  open(obj) {
+    const details = obj.details,
+      summary = obj.summary,
+      content = obj.content;
+
+    const openAnimeKeyframes = (content) => [
+      {
+        height: 0,
+        opacity: 0,
+      },
+      {
+        height: content.offsetHeight + "px",
+        opacity: 1,
+      },
+    ];
+
+    details.setAttribute("open", "true");
+    details.setAttribute("data-status", "open");
+
+    const openingAnime = content.animate(
+      openAnimeKeyframes(content),
+      this.config
+    );
+    openingAnime.onfinish = () => {
+      // 終了時の処理
+    };
+  }
+
+  close(obj) {
+    const details = obj.details,
+      summary = obj.summary,
+      content = obj.content;
+
+    const closeAnimeKeyframes = (content) => [
+      {
+        height: content.offsetHeight + "px",
+        opacity: 1,
+      },
+      {
+        height: 0,
+        opacity: 0,
+      },
+    ];
+
+    const closingAnime = content.animate(
+      closeAnimeKeyframes(content),
+      this.config
+    );
+
+    closingAnime.onfinish = () => {
+      details.removeAttribute("open");
+      details.setAttribute("data-status", "close");
+    };
+  }
+
+  init() {
+    this.detailsList = [];
+    this.detailsList = [...document.querySelectorAll("details")];
+    this.detailsList.forEach((ele) => {
+      const isOpen = ele.getAttribute("data-open");
+      if (
+        (isOpen === "pc" && !this.isMatchMedia) ||
+        (isOpen === "sp" && this.isMatchMedia)
+      ) {
+        ele.setAttribute("open", "true");
+        ele.setAttribute("data-status", "open");
+      } else {
+        ele.removeAttribute("open");
+        ele.setAttribute("data-status", "close");
+      }
+
+      const summary = ele.querySelector("summary"),
+        content = summary.nextElementSibling;
+
+      content.setAttribute(
+        "style",
+        `overflow: hidden; transition: ${
+          this.config.duration / 1000
+        }s ease height;`
+      );
+
+      const obj = {
+        details: ele,
+        summary: summary,
+        content: content,
+      };
+
+      summary.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (
+          ele.getAttribute("data-status") === "open" ||
+          ele.getAttribute("data-status") === "close"
+        ) {
+          ele.setAttribute("data-status", "run");
+          ele.open ? this.close(obj) : this.open(obj);
+        }
+      });
+    });
+  }
+}
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  const ac = new Accordion();
+  ac.init();
+});
+</script>
