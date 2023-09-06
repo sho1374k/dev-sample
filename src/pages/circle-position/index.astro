@@ -1,0 +1,142 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+
+// body{
+//   background: var(--black2);
+//   min-height: 100vh;
+//   min-height: 100svh;
+// }
+
+// .container{
+//   widows: 100vw;
+//   min-height: 100vh;
+//   min-height: 100svh;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+// .items {
+// 	width: 400px;
+// 	-webkit-aspect-ratio: 1;
+// 	aspect-ratio: 1;
+// 	border-radius: 50%;
+// 	border: dashed 1px #777;
+// 	margin: 50px;
+// 	position: relative;
+// }
+
+// .item {
+// 	width: 80px;
+// 	height: 80px;
+// 	border-radius: 50%;
+// 	background: #777;
+// 	font-size: 32px;
+// 	font-weight: 700;
+// 	color: #fff;
+// 	line-height: 80px;
+// 	text-align: center;
+// 	position: absolute;
+// 	-webkit-transform: translate(-50%, -50%);
+// 	transform: translate(-50%, -50%);
+// }
+
+
+body {
+  background: var(--black2);
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.container {
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.items {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  -webkit-aspect-ratio: 1;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: dashed 1px var(--beige);
+}
+
+.item {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--beige);
+  color: var(--black);
+}
+</style>
+
+<Layout title="円周上にならべる">
+  <div class="container" id="container">
+    <div class="items" id="js-itemContainer">
+      <div class="item js-item">1</div>
+      <div class="item js-item">2</div>
+      <div class="item js-item">3</div>
+      <div class="item js-item">4</div>
+      <div class="item js-item">5</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+      <div class="item js-item">6</div>
+    </div>
+  </div>
+</Layout>
+
+<script lang="javascript">
+window.addEventListener("DOMContentLoaded", (e) => {
+  const itemContainer = document.getElementById("js-itemContainer");
+  const itemList = [...document.querySelectorAll(".js-item")];
+
+  const parmas = {
+    length: itemList.length,
+    itemRadius: null, // 小円の半径
+    minDistance: null, // 小円同士の最小距離
+    containerRadius: null, // 親要素の半径
+    angle: null, // 単体の角度
+  };
+
+  parmas.angle = ((Math.PI * 2) / parmas.length);
+  parmas.itemRadius = itemList[0].getBoundingClientRect().width * 0.5;
+  parmas.minDistance = parmas.itemRadius * 2;
+  parmas.containerRadius = (parmas.itemRadius + parmas.minDistance) / Math.sin(parmas.angle);
+
+  itemContainer.style.width = `${(parmas.containerRadius) * 2}px`;
+
+  for (let i = 0; i < parmas.length; i++) {
+    const degree = 2 * Math.PI * i;
+    const angle = degree / parmas.length;
+    const x = (parmas.containerRadius * Math.cos(angle)) + parmas.containerRadius;
+    const y = (parmas.containerRadius * Math.sin(angle)) + parmas.containerRadius;
+    itemList[i].style.left = `${x}px`;
+    itemList[i].style.top = `${y}px`;
+  }
+});
+</script>
