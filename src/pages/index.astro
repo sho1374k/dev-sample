@@ -2,19 +2,67 @@
 import Layout from '../layouts/Layout.astro';
 
 const posts = [
-  "circle-position",
-  "accordion",
-  "anker-link",
-  "modal-id",
-  "modal-image",
-  "api-zip-code-search",
-  "hover-animation-with-javascript",
-  "simplebar-horizontal",
-  "simplebar-vertical",
-  "swiper-auto-slide",
-  "swiper-type2",
-  "swiper-type1",
-  "test",
+  {
+    label: "iframeクリック再生",
+    href: "click-play-iframe",
+  },
+  {
+    label: "スプレットシートAPI",
+    href: "api-spreadsheets",
+  },
+  {
+    label: "円周上のポジション",
+    href: "circle-position",
+  },
+  {
+    label: "アコーディオン",
+    href: "accordion",
+  },
+  {
+    label: "アンカーリンク",
+    href: "anker-link",
+  },
+  {
+    label: "モーダル（id識別）",
+    href: "modal-id",
+  },
+  {
+    label: "モーダル（画像）",
+    href: "modal-image",
+  },
+  {
+    label: "住所検索API",
+    href: "api-zip-code-search",
+  },
+  {
+    label: "hover animation with JS",
+    href: "hover-animation-with-javascript",
+  },
+  {
+    label: "simplebar 横スクロール",
+    href: "simplebar-horizontal",
+  },
+  {
+    label: "simplebar 縦クスロール",
+    href: "simplebar-vertical",
+  },
+  {
+    label: "swiper 均一速度で自動で流れる",
+    href: "swiper-auto-slide",
+  },
+  {
+    label: "swiper 1枚ごとにループする",
+    href: "swiper-type2",
+  },
+  {
+    label: "swiper 1枚ごとでループしない",
+    href: "swiper-type1",
+  },
+  {
+    label: "テスト",
+    href: "test",
+  },
+  
 ];
 ---
 <Layout title="">
@@ -23,8 +71,8 @@ const posts = [
 		<ul>
       {
         posts.map((data) => {
-          const url = `/${data}/`;
-          const pageName = data;
+          const url = `/${data.href}/`;
+          const pageName = data.label != "" ? data.label : data.href;
           return(
             <li>
               <a href={url} target="_blank" rel="noopener noreferrer">{pageName}</a>

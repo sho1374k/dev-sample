@@ -1,0 +1,50 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+<style lang="scss">
+@use "../../styles/global/app" as *;
+:root {
+	--dummy-black: #222;
+	--dummy-baige: #f9f2e5;
+}
+body {
+	background: var(--black2);
+	min-height: 100vh;
+}
+h1 {
+	font-size: 24px;
+	color: var(--beige);
+	font-weight: bold;
+	line-height: 100%;
+	padding: 32px 24px;
+	@include sp_w(){
+		padding: 24px 20px;
+	}
+}
+main{
+
+}
+</style>
+
+<Layout title="API スプレットシート">
+	<h1>API スプレットシート</h1>
+	<main>
+	</main>
+</Layout>
+
+<script>
+	const API_URL = "https://script.google.com/macros/s/AKfycbywVkiwvXVgqtUPhXZQInoMCUpSjSPSElk6KCdE4AkJ20NAdJSBNc-1Mz5Xy8WsP9R5/exec"
+  window.addEventListener("DOMContentLoaded", (e) => {
+		console.log("hgoehgoe");
+		fetch(API_URL, {
+			method: "GET"
+		})
+    .then((data) => {
+      return data.json();
+			console.log(data);
+    })
+    .catch((error) => {
+			throw new Error("APIの取得に失敗しました。" + error);
+    });
+  });
+</script>
