@@ -3,7 +3,8 @@
 - https://developers.google.com/youtube/player_parameters?hl=ja
 */
 
-const SITE_URL = import.meta.env.SITE;
+// const SITE_URL = import.meta.env.SITE;
+const SITE_URL = "https://sho1374k.github.io/dev-sample/";
 const JSON_URL = SITE_URL + "assets/json/youtube.json";
 
 class Youtube {
