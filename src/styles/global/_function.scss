@@ -52,6 +52,18 @@
 
 // --------------------------
 
+// svh
+
+// --------------------------
+@function svh($h, $base: 800) {
+  @return math.div($h, $base) * 100svh;
+}
+@function svh_sp($h, $base: 800) {
+  @return math.div($h, $base) * 100svh;
+}
+
+// --------------------------
+
 // liquid | viewportのwidth基準
 // htmlのfont-sizeがリッキド用に設定している時に使用できる関数
 // font-size: calc(100 / var(--base-vw) * 1vw);

@@ -1,0 +1,374 @@
+@use "../global/app" as *;
+@use "../lib/lenis";
+
+:root {
+  --dummy-black: #222;
+  --dummy-baige: #f9f2e5;
+}
+
+body {
+  background: var(--dummy-baige);
+  min-height: 100vh;
+}
+
+// main
+main {
+  width: calc(100% - 115px);
+  margin-left: auto;
+  border-left: solid 1px red;
+  box-sizing: border-box;
+  overflow: clip;
+}
+
+// 共通
+.pHomeSection {
+  width: calc(100% - 86px);
+  margin-left: auto;
+}
+
+// --------------------------
+
+// fv
+
+// --------------------------
+.pHomeFv {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  background: rgba(red, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+// --------------------------
+
+// 繋ぎ
+
+// --------------------------
+.pHomeConnection {
+}
+.pHomeConnection-toVoice {
+  height: 231px;
+  width: 100%;
+}
+.pHomeConnection__line {
+  svg {
+    position: relative;
+    z-index: 0;
+    top: -2px;
+    left: 86px;
+    width: auto;
+    height: 257px;
+    path {
+    }
+  }
+}
+
+// --------------------------
+
+// voice
+
+// --------------------------
+.pHomeVoice {
+  width: 100%;
+  overflow-x: clip;
+}
+.pHomeVoiceHrozontal {
+  height: 100vh;
+}
+.pHomeVoiceHrozontal__bg {
+  position: absolute;
+  // 1px問題対策
+  bottom: -2px;
+  // 左のスペースとメリットタイトルの左のスペース
+  left: calc(86px + vw(32));
+  z-index: 0;
+  width: vw(851);
+  // 2px * 2 :bottomの1px問題の高さ
+  // 21px voiceタイトルの上の余白
+  // vw(76) → eの端っこまでの距離
+  height: calc(100vh + 2px * 2 - 21px - vw(76));
+  svg {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    path {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.pHomeVoiceHrozontal__wrap {
+  height: 100vh;
+  height: 100svh;
+}
+.pHomeVoiceHrozontal__inner {
+  height: max-content;
+}
+.pHomeVoiceHead {
+  // 上のスペース
+  padding-top: 21px;
+  // 左のスペース削除
+  width: calc(100% - 86px);
+  margin-left: auto;
+}
+.pHomeVoiceHead__inner {
+  svg {
+    box-sizing: border-box;
+    width: auto;
+    // svgタイトルの高さ
+    height: vw(88);
+  }
+}
+.pHomeVoicecCards {
+  // カード群とタイトルのスペース
+  margin-top: vh(21);
+  margin-top: svh(21);
+}
+.cVoiceCardList {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+}
+.cVoiceCard {
+  height: vh(600);
+  height: svh(600);
+  width: vh(666);
+  width: svh(666);
+  min-width: svh(666);
+  border: solid 1px green;
+  box-sizing: border-box;
+}
+
+// --------------------------
+
+// merit
+
+// --------------------------
+.pHomeMerit {
+}
+.pHomeMeritHead {
+  // タイトルの左のスペース
+  box-sizing: border-box;
+  padding-left: vw(28);
+}
+.pHomeMeritHead__inner {
+  svg {
+    position: relative;
+    z-index: 0;
+    width: auto;
+    // svgタイトルの高さ
+    height: vw(67);
+    path {
+      // ▼ js側で値いれる ▼
+      // stroke-dasharray: px;
+      // stroke-dashoffset: px;
+      // fill: none;
+      // stroke: red;
+      // stroke-width: 1;
+    }
+  }
+}
+.pHomeMeritContent {
+  position: relative;
+  z-index: 0;
+}
+
+.pHomeMeritContent__inner {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 118px;
+  width: 100%;
+}
+.pHomeMeritContent__bg {
+  position: absolute;
+  // vw(-3 * 2): tの下に線が重なるように上にずらす
+  top: vw(-3 * 2);
+  left: 0px;
+  bottom: 0;
+  margin: auto;
+  width: vw(1178);
+  // vw(3 * 2): tの下に重なるようにずらした分加える
+  height: calc(100% + vw(3 * 2));
+  svg {
+    width: 100%;
+    height: 100%;
+    path {
+      width: 100%;
+      height: 100%;
+      // ▼ js側で値いれる ▼
+      // stroke-dasharray: px;
+      // stroke-dashoffset: px;
+    }
+  }
+}
+.pHomeMeritContent__front {
+}
+.cMeritCardList {
+  width: calc(100% - 95px);
+  max-width: 1108px;
+}
+.cMeritCard {
+  max-width: 540px;
+  width: 50%;
+  height: 540px;
+  border: solid 1px green;
+  box-sizing: border-box;
+  margin-top: -184px;
+  &:nth-of-type(1) {
+    margin-top: 0;
+  }
+  &:nth-of-type(2n - 1) {
+    margin-left: auto;
+  }
+}
+
+// --------------------------
+
+// embroidery
+
+// --------------------------
+.pHomeEmbroidery {
+}
+.pHomeEmbroideryHead {
+  position: relative;
+  z-index: 0;
+
+  box-sizing: border-box;
+}
+.pHomeEmbroideryHead__inner {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  svg {
+    position: relative;
+    // vw(-9): (bとd)とEの高さの差分分上にずらす
+    top: vw(-9);
+    left: -2px;
+    width: auto;
+    height: vw(96);
+    path {
+      // ▼ js側で値いれる ▼
+      // stroke-dasharray: px;
+      // stroke-dashoffset: px;
+      // fill: none;
+      // stroke: red;
+      // stroke-width: 1;
+    }
+  }
+}
+.pHomeEmbroideryContent {
+}
+.pHomeEmbroideryContent__inner {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+}
+.pHomeEmbroideryContent__bg {
+  position: absolute;
+  // vw(-13 * 2): 線の先端がyに重なるようにずらす、ただしbottomとmargin:auto;しているので2倍する
+  top: vw(-13 * 2);
+  left: vw(422);
+  bottom: 0;
+  margin: auto;
+  width: vw(702);
+  height: 100%;
+  svg {
+    width: 100%;
+    // vw(13): yに線が重なるようにずらす
+    height: calc(100% + vw(13));
+    path {
+      width: 100%;
+      height: 100%;
+      // ▼ js側で値いれる ▼
+      // stroke-dasharray: px;
+      // stroke-dashoffset: px;
+    }
+  }
+}
+.pHomeEmbroideryContent__front {
+  width: 100%;
+  max-width: 1108px;
+  padding: 64px 0 128px;
+}
+.cEmbroideryBlock1 {
+  width: 90%;
+  height: 300px;
+  border: solid green 1px;
+  box-sizing: border-box;
+}
+.cEmbroideryBlock2 {
+  width: 90%;
+  height: 300px;
+  border: solid green 1px;
+  box-sizing: border-box;
+  margin-top: 64px;
+}
+
+// --------------------------
+
+// Q & A
+
+// --------------------------
+.pHomeQa {
+}
+.pHomeQaHead {
+  // border: solid 1px blue;
+  box-sizing: border-box;
+}
+.pHomeQaHead__inner {
+  width: max-content;
+  margin-left: vw(462);
+  svg {
+    position: relative;
+    // vw(-4): QとAの高さの差分分上にずらして線に重ねる
+    top: vw(-4);
+    width: auto;
+    height: vw(89.5);
+  }
+}
+.pHomeQaContent {
+  margin-top: 32px;
+}
+
+// --------------------------
+
+// Q&A アコーディオン
+
+// --------------------------
+.cQas {
+  width: calc(100% - 86px);
+}
+.cQa {
+  box-sizing: border-box;
+  border: solid 1px green;
+  height: 100px;
+  width: 100%;
+  margin: auto;
+  margin-top: 32px;
+  &:nth-of-type(1) {
+    margin-top: 0;
+  }
+}
+
+// --------------------------
+
+// foot
+
+// --------------------------
+.lFooter {
+  width: 100%;
+  height: 500px;
+  background: rgba(red, 0.1);
+  box-sizing: border-box;
+  border-top: solid 1px red;
+}
+
+section {
+  box-sizing: border-box;
+}

@@ -1,5 +1,7 @@
 --- 
 import "../styles/common.scss";
+import GitHub from "../components/parts/GitHub.astro"
+import SiteLogo from "../components/parts/SiteLogo.astro"
 
 interface Props {
 	title?: string;
@@ -66,7 +68,9 @@ const GTAG = ``;
     <link rel="icon" type="image/svg+xml" href={FAVICON} />
 	</head>
 	<body>
-		<slot />
+    <slot />
+    <SiteLogo />
+    <GitHub />
 	</body>
 </html>
 <script>

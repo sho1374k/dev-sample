@@ -12,6 +12,7 @@
     "replaceRelativePathInHtml": "node _build-options/replaceRelativePathInHtml.mjs"
   },
   "dependencies": {
+    "@studio-freight/lenis": "^1.0.33",
     "astro": "^2.10.12",
     "gsap": "^3.12.2",
     "simplebar": "^6.2.5",
