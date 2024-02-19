@@ -404,10 +404,12 @@ class App {
   }
 
   resize() {
-    clearTimeout(this.timer.resize);
-    this.timer.resize = setTimeout(() => {
-      this.refresh();
-    }, 300);
+    if (window.matchMedia("(hover: hover)").matches) {
+      clearTimeout(this.timer.resize);
+      this.timer.resize = setTimeout(() => {
+        this.refresh();
+      }, 300);
+    }
   }
 
   refresh() {
